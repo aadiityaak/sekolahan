@@ -33,17 +33,11 @@ class Member {
             'desc'      => '',
             'required'  => false,
         ],
-        'lokasi'        => [
-            'type'      => 'geolocation',
-            'title'     => 'Lokasi',
-            'desc'      => 'dapatkan lokasi, untuk lebih akurat aktifkan GPS',
-            'required'  => false,
-        ],
-	'bio'            => [
-	     'type'      => 'textarea',
-	     'title'     => 'Bio',
-	     'required'  => false,
-	],
+		'bio'            => [
+			'type'      => 'textarea',
+			'title'     => 'Bio',
+			'required'  => false,
+		],
         'user_pass'     => [
             'type'      => 'password',
             'title'     => 'Password',
@@ -309,48 +303,7 @@ class Member {
                 				echo '<input type="hidden" id="'.$idmeta.'-kecamatan-name" class="alamat-kecamatan-name" name="'.$idmeta.'[2][]" value="'.$kecamatanname.'" >';
             				echo '</div>';
             			}
-            			                        
-            			//type input geolocation
-            			if ($fields['type']=='geolocation') {
-            			    echo '<div>';
-            			        $latitude   = isset($value[0])?$value[0]:'';
-            			        $longitude  = isset($value[1])?$value[1]:'';
-                			    echo '<span class="btn btn-sm btn-info geolocation" data-latitude="#'.$idmeta.'-1" data-longitude="#'.$idmeta.'-2" data-frame="'.$idmeta.'-frame"><i class="fa fa-globe" aria-hidden="true"></i> Dapatkan '.$fields['title'].'</span>';
-                			    echo '<span class="btn btn-sm btn-danger resetgeolocation ml-2" data-latitude="#'.$idmeta.'-1" data-longitude="#'.$idmeta.'-2" data-frame="#'.$idmeta.'-frame">Reset</span>';
-                				echo '<input type="hidden" id="'.$idmeta.'-1" value="'.$latitude.'" name="'.$idmeta.'[]">';
-                				echo '<input type="hidden" id="'.$idmeta.'-2" value="'.$longitude.'" name="'.$idmeta.'[]">';
-                				$frame = !empty($latitude)&&!empty($longitude)?'':'d-none';
-                				echo '<div id="'.$idmeta.'-frame" class="'.$frame.' my-3">';
-                				    if(!empty($latitude)&&!empty($longitude)): ?>
-                				        <div id="<?= $idmeta;?>-frame-map"></div>
-                				        <script>
-                				            (function($){
-                				            $( document ).ready(function() {
-                				                 $('#<?= $idmeta;?>-frame-map').height(350);
-                                                 var mapOptions = {
-                                                    center: [<?= $latitude;?>, <?= $longitude;?>],
-                                                    zoom: 15,
-                                                 }
-                                                 var map = new L.map('<?= $idmeta;?>-frame-map', mapOptions);
-                                                 var layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-                                                 map.addLayer(layer);
-                                                 var marker = L.marker([<?= $latitude;?>, <?= $longitude;?>], {
-                                                    draggable: true
-                                                });
-                                                 marker.addTo(map);
-                                                 marker.on('dragend', function (e) {
-                                            	    $('#<?= $idmeta;?>-1').val(marker.getLatLng().lat);
-                                            	    $('#<?= $idmeta;?>-2').val(marker.getLatLng().lng);
-                                                });
-                				            });
-                				            })(jQuery);
-                				        </script>
-                				    <?php
-                				    endif;
-                				echo '</div>';
-            				echo '</div>';
-            			}
-				 
+            			
 				//type input file
             			if ($fields['type']=='file') {
             			    
