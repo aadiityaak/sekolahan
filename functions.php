@@ -2,15 +2,45 @@
 
 define( 'SWEET_URL', get_stylesheet_directory() );
 
+// Autoload class
 include  SWEET_URL.'/int/autoload.php';
+include  SWEET_URL.'/admin/admin.php';
 
+// Frontend enqueue
 add_action( 'wp_enqueue_scripts', 'sekolahan_enqueue_styles' );
 function sekolahan_enqueue_styles() {
 		wp_enqueue_style( 'parent-style', SWEET_URL . '/style.css' ); 
 }
 
+// Admin Enqueue
+function justg_admin_script()
+{
+    // $pagenow, is a global variable referring to the filename of the current page, 
+    // such as ‘admin.php’, ‘post-new.php’
+    global $pagenow;
+ 
+    if ($pagenow != 'admin.php') {
+        return;
+    }
+     
+    // loading css
+    wp_register_style( 'dataTables-css', '//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css', false, '1.0.0' );
+    wp_enqueue_style( 'dataTables-css' );
+     
+    // loading js
+    wp_register_script( 'jquery-js', '//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', array('jquery'), false, true );
+    wp_enqueue_script( 'jquery-js' );
 
-$args = [
+	wp_register_script( 'dataTables-js', '//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js', array('jquery'), false, true );
+    wp_enqueue_script( 'dataTables-js' );
+
+	wp_register_script( 'admin-js', SWEET_URL . '/js/admin.min.js', array('jquery'), false, true );
+    wp_enqueue_script( 'admin-js' );
+} 
+add_action( 'admin_enqueue_scripts', 'justg_admin_script' );
+
+// List table siswa
+$siswaargs = [
     'nama' => 'VARCHAR(50) NOT NULL',
     'phone' => 'int(15) NOT NULL',
 	'kelas' => 'VARCHAR(114) NOT NULL',
@@ -27,21 +57,7 @@ $args = [
     'created' => 'DATETIME NOT NULL',
 ];
 
-$baru = [ 
-	'Andin', 
-	'082147650800',
-	'8a',
-	'wandi@gmail.com', 
-	'Tunggul, jarum, Bayat, Klaten', 
-	'Perempuan', 
-	'Klaten', 
-	'1990-05-3', 
-	'Dadang', 
-	'Yiyin',
-	1231,
-	5000000,
-	100000,
-	date('Y-m-d H:i:s')];
+// Contoh data siswa
 $baru = [ 
 	'Andin', 
 	'082147650800',
@@ -58,7 +74,9 @@ $baru = [
 	100000,
 	date('Y-m-d H:i:s')];
 
-$data_siswa = new ManageTable('data_siswa', $args);
+// Create table siswa
+
+$data_siswa = new ManageTable('data_siswa', $siswaargs);
 $data_siswa->run();
 // $data_siswa->insert($baru);
 // $data_siswa->delete(1);
