@@ -1,6 +1,7 @@
 <?php
 
 define( 'SWEET_URL', get_stylesheet_directory() );
+define( 'SWEET_PATH', get_stylesheet_directory_uri() );
 
 // Autoload class
 include  SWEET_URL.'/int/autoload.php';
@@ -19,23 +20,18 @@ function justg_admin_script()
     // such as ‘admin.php’, ‘post-new.php’
     global $pagenow;
  
-    if ($pagenow != 'admin.php') {
-        return;
-    }
+    // if ($pagenow != 'admin.php') {
+    //     return;
+    // }
      
     // loading css
-    wp_register_style( 'dataTables-css', '//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css', false, '1.0.0' );
+    wp_enqueue_style( 'dataTables-css', '//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css', false, '1.0.0' );
     wp_enqueue_style( 'dataTables-css' );
      
     // loading js
-    wp_register_script( 'jquery-js', '//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', array('jquery'), false, true );
-    wp_enqueue_script( 'jquery-js' );
-
-	wp_register_script( 'dataTables-js', '//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js', array('jquery'), false, true );
-    wp_enqueue_script( 'dataTables-js' );
-
-	wp_register_script( 'admin-js', SWEET_URL . '/js/admin.min.js', array('jquery'), false, true );
-    wp_enqueue_script( 'admin-js' );
+    wp_enqueue_script( 'jquery-js', '//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', array('jquery'), false, true );
+	wp_enqueue_script( 'dataTables-js', '//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js', array('jquery'), false, true );
+	wp_enqueue_script( 'admin-js', SWEET_PATH . '/src/js/admin.min.js', array('jquery'), false, true );
 } 
 add_action( 'admin_enqueue_scripts', 'justg_admin_script' );
 

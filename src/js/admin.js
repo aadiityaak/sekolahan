@@ -1,6 +1,6 @@
 $(document).ready(function($) {
     $('#tablesiswa').DataTable( {
-        "ajax": "objects.txt",
+        "ajax": "//localhost/sekolah/wp-content/themes/sekolahan/src/js/objects.txt",
         "columns": [
             { "data": "name" },
             { "data": "position" },
