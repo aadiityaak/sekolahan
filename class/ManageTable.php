@@ -70,5 +70,16 @@ class ManageTable {
         }
         $wpdb->update($table_name, $data , array( 'id' => $id ));
     }
+
+    public function get() {
+        global $wpdb;
+        
+        $table_name = $this->table_prefix;
+        $result = $wpdb->get_results ( "
+            SELECT * 
+            FROM  $table_name
+        " );
+        return $result;
+    }
     
 }

@@ -47,6 +47,7 @@ $siswaargs = [
     'tanggal_lahir' => 'DATETIME NOT NULL',
     'nama_ayah' => 'VARCHAR(50) NOT NULL',
     'nama_ibu' => 'VARCHAR(50) NOT NULL',
+    'nama_wali' => 'VARCHAR(50) NOT NULL',
 	'saudara' => 'VARCHAR(50) NOT NULL',
     'pendapatan_ortu' => 'VARCHAR(50) NOT NULL',
     'spp' => 'INT(15) NOT NULL',
@@ -77,3 +78,18 @@ $data_siswa->run();
 // $data_siswa->insert($baru);
 // $data_siswa->delete(1);
 // $data_siswa->update(2,$update);
+
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'siswa/v1', '/id/(?P<id>\d+)', array(
+      'methods' => 'GET',
+      'callback' => 'get_all_data_siswa',
+    ) );
+  } );
+
+function get_all_data_siswa($id) {
+    global $data_siswa;
+    $json['data'] = $data_siswa->get();
+    return $json;
+    // return array(1,2,3,4,5);
+}
