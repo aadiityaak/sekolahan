@@ -26,12 +26,16 @@ function justg_admin_script()
      
     // loading css
     wp_enqueue_style( 'dataTables-css', '//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css', false, '1.0.0' );
-    wp_enqueue_style( 'dataTables-css' );
+    // wp_enqueue_style( 'bootstrap-css', '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css', false, '1.0.0' );
+    // wp_enqueue_style( 'datatables-bootstrap-css', '//cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css', false, '1.0.0' );
+    wp_enqueue_style( 'admin-css', SWEET_PATH . '/src/css/admin.min.css', false, '1.0.0' );
      
     // loading js
     wp_enqueue_script( 'jquery-js', '//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', array('jquery'), false, true );
 	wp_enqueue_script( 'dataTables-js', '//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js', array('jquery'), false, true );
-	wp_enqueue_script( 'admin-js', SWEET_PATH . '/src/js/admin.min.js', array('jquery'), false, true );
+	wp_enqueue_script( 'dataTables-editor-js', SWEET_PATH . '/src/js/dataTables.editor.min.js', array('jquery'), false, true );
+    wp_enqueue_script( 'dataTables-buttons-js', SWEET_PATH . '/src/js/dataTables.buttons.min.js', array('jquery'), false, true );
+    wp_enqueue_script( 'admin-js', SWEET_PATH . '/src/js/admin.min.js', array('jquery'), false, true );
 } 
 add_action( 'admin_enqueue_scripts', 'justg_admin_script' );
 

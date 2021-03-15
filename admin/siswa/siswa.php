@@ -1,9 +1,10 @@
+<?php add_thickbox(); ?>
 <div class="wrap">
-	<?php screen_icon(); ?>
 	<h2>Siswa</h2>
 	<div class="sweet-wrap">
 		<div class="sweet-content">
-		<table id="tablesiswa" class="display" style="width:100%">
+		<table id="tablesiswa" class="table table-striped" style="width:100%">
+
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -25,7 +26,7 @@
 			</thead>
 			<tfoot>
 				<tr>
-				<th>ID</th>
+					<th>ID</th>
 					<th>Nama</th>
 					<th>Telfon</th>
 					<th>Kelas</th>

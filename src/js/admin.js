@@ -20,7 +20,7 @@ $(document).ready(function($) {
         ],
         "columnDefs": [
             {
-                "targets": [ 7,8,9,10,11,14 ],
+                "targets": [ 4,7,8,9,10,11,14 ],
                 "visible": false
             }
         ]
