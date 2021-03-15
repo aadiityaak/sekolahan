@@ -1,13 +1,28 @@
 $(document).ready(function($) {
     $('#tablesiswa').DataTable( {
-        "ajax": "//localhost/sekolah/wp-content/themes/sekolahan/src/js/objects.txt",
+        "ajax": "http://localhost/sekolah/wp-json/siswa/v1/id/1",
         "columns": [
-            { "data": "name" },
-            { "data": "position" },
-            { "data": "office" },
-            { "data": "extn" },
-            { "data": "start_date" },
-            { "data": "salary" }
+            { "data": "id" },
+            { "data": "nama" },
+            { "data": "phone" },
+            { "data": "kelas" },
+            { "data": "email" },
+            { "data": "alamat" },
+            { "data": "jenis_kelamin" },
+            { "data": "tempat_lahir" },
+            { "data": "tanggal_lahir" },
+            { "data": "nama_ayah" },
+            { "data": "nama_ibu" },
+            { "data": "nama_wali" },
+            { "data": "saudara" },
+            { "data": "pendapatan_ortu" },
+            { "data": "spp" }
+        ],
+        "columnDefs": [
+            {
+                "targets": [ 7,8,9,10,11 ],
+                "visible": false
+            }
         ]
     } );
 } );
