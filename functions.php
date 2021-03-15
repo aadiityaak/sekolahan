@@ -38,7 +38,7 @@ add_action( 'admin_enqueue_scripts', 'justg_admin_script' );
 // List table siswa
 $siswaargs = [
     'nama' => 'VARCHAR(50) NOT NULL',
-    'phone' => 'int(15) NOT NULL',
+    'phone' => 'varchar(15) NOT NULL',
 	'kelas' => 'VARCHAR(114) NOT NULL',
     'email' => 'VARCHAR(114) NOT NULL',
     'alamat' => 'text(225) NOT NULL',
