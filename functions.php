@@ -24,18 +24,29 @@ function justg_admin_script()
     //     return;
     // }
      
-    // loading css
+    // loading css 
     wp_enqueue_style( 'dataTables-css', '//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css', false, '1.0.0' );
-    // wp_enqueue_style( 'bootstrap-css', '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css', false, '1.0.0' );
+    wp_enqueue_style( 'font-awesome-css', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false, '1.0.0' );
+    wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', false, '1.0.0' );
     // wp_enqueue_style( 'datatables-bootstrap-css', '//cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css', false, '1.0.0' );
-    wp_enqueue_style( 'admin-css', SWEET_PATH . '/src/css/admin.min.css', false, '1.0.0' );
+    wp_enqueue_style( 'admin-css', SWEET_PATH . '/src/css/admin.css', false, '1.0.0' );
      
     // loading js
     wp_enqueue_script( 'jquery-js', '//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', array('jquery'), false, true );
 	wp_enqueue_script( 'dataTables-js', '//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js', array('jquery'), false, true );
-	wp_enqueue_script( 'dataTables-editor-js', SWEET_PATH . '/src/js/dataTables.editor.min.js', array('jquery'), false, true );
-    wp_enqueue_script( 'dataTables-buttons-js', SWEET_PATH . '/src/js/dataTables.buttons.min.js', array('jquery'), false, true );
-    wp_enqueue_script( 'admin-js', SWEET_PATH . '/src/js/admin.min.js', array('jquery'), false, true );
+	wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', array('jquery'), false, true );
+    // wp_enqueue_script( 'dataTables-buttons-js', SWEET_PATH . '/src/js/dataTables.buttons.min.js', array('jquery'), false, true );
+    wp_enqueue_script( 'admin-js', SWEET_PATH . '/src/js/admin.js', array('jquery'), false, true );
+
+    wp_localize_script(
+        'jquery-js',
+        'opt',
+        array(
+            'ajaxUrl'        => admin_url('admin-ajax.php'),
+            'ajaxPost'       => admin_url('admin-post.php'),
+            'restUrl'        => rest_url(),
+        )
+    );
 } 
 add_action( 'admin_enqueue_scripts', 'justg_admin_script' );
 
@@ -48,7 +59,7 @@ $siswaargs = [
     'alamat' => 'text(225) NOT NULL',
     'jenis_kelamin' => 'text(225) NOT NULL',
     'tempat_lahir' => 'text(225) NOT NULL',
-    'tanggal_lahir' => 'DATETIME NOT NULL',
+    'tanggal_lahir' => 'DATE NOT NULL',
     'nama_ayah' => 'VARCHAR(50) NOT NULL',
     'nama_ibu' => 'VARCHAR(50) NOT NULL',
     'nama_wali' => 'VARCHAR(50) NOT NULL',
@@ -85,15 +96,41 @@ $data_siswa->run();
 
 
 add_action( 'rest_api_init', function () {
-    register_rest_route( 'siswa/v1', '/id/(?P<id>\d+)', array(
+    register_rest_route( 'siswa/v1', '/all', array(
       'methods' => 'GET',
       'callback' => 'get_all_data_siswa',
-    ) );
+    ));
+    register_rest_route( 'siswa/v1', '/id', array(
+        'methods' => 'GET',
+        'callback' => 'get_field_siswa',
+    ));
+    register_rest_route( 'siswa/v1', '/id/(?P<id>[a-zA-Z0-9-]+)', array(
+        'methods' => 'GET',
+        'callback' => 'get_data_siswa_by_id',
+    ));
+    register_rest_route( 'siswa/v1', '/update', array(
+        'methods' => 'POST',
+        'callback' => 'update_data_siswa',
+    ));
   } );
 
-function get_all_data_siswa($id) {
+function get_all_data_siswa() {
     global $data_siswa;
-    $json['data'] = $data_siswa->get();
+    $json['data'] = $data_siswa->get("kelas != 'SMP - Lulus'");
+    return $json;
+    // return array(1,2,3,4,5);
+}
+function get_field_siswa($data) {
+    global $siswaargs;
+    $json['data'] = $siswaargs;
+    return $json;
+    // return array(1,2,3,4,5);
+}
+
+function get_data_siswa_by_id($data) {
+    global $data_siswa;
+    $id = $data['id'];
+    $json['data'] = $data_siswa->get("id = '$id'");
     return $json;
     // return array(1,2,3,4,5);
 }
