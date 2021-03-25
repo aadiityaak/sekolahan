@@ -111,8 +111,14 @@ add_action( 'rest_api_init', function () {
     register_rest_route( 'siswa/v1', '/update', array(
         'methods' => 'POST',
         'callback' => 'update_data_siswa',
+        /**
+         * This is where the authentication happens
+         */
+        // 'permission_callback' => function() {
+        //     return current_user_can('edit_posts');
+        // }
     ));
-  } );
+});
 
 function get_all_data_siswa() {
     global $data_siswa;
@@ -132,5 +138,14 @@ function get_data_siswa_by_id($data) {
     $id = $data['id'];
     $json['data'] = $data_siswa->get("id = '$id'");
     return $json;
+    // return array(1,2,3,4,5);
+}
+
+function update_data_siswa($data) {
+    global $data_siswa;
+    $json = $data_siswa->update($data['data']);
+    ob_start();
+    print_r($json);
+    return ob_get_clean();
     // return array(1,2,3,4,5);
 }

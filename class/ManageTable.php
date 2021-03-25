@@ -27,7 +27,7 @@ class ManageTable {
             $data .= $key.' '.$val.',';
         }
         $sql = "CREATE TABLE IF NOT EXISTS $table_name ( 
-        id int(11) NOT NULL AUTO_INCREMENT,
+        id int() NOT NULL AUTO_INCREMENT,
         $data
         PRIMARY KEY  (id)
         ) $this->charset_collate;";
@@ -58,28 +58,43 @@ class ManageTable {
         $wpdb->delete($table_name, array( 'id' => $id ));
     }
     
-    public function update($id=null, array $args) {
+    public function update($args) {
         global $wpdb;
         
         $table_name = $this->table_prefix;
-        $datas = $this->datas;
-        $data = [];
+        $datas = ['id' => ''];
+        $datas += $this->datas;
         $i = 0;
         foreach($datas as $key => $val){
             $data[$key] = $args[$i++];
         }
-        $wpdb->update($table_name, $data , array( 'id' => $id ));
+        $id = $data['id'];
+        $post_exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE id = $id"));
+        if($post_exists){
+            $wpdb->update($table_name, $data , array( 'id' => $id ));
+            $hasil = 'update';
+        } else {
+            $wpdb->insert($table_name, $data );
+            $hasil = 'insert';
+        }
+        
+        ob_start();
+        print_r($wpdb->show_errors());
+        print_r($wpdb->last_query);
+        return ob_get_clean();
     }
 
-    public function get() {
+    public function get($query) {
         global $wpdb;
         
         $table_name = $this->table_prefix;
         $result = $wpdb->get_results ( "
             SELECT * 
             FROM  $table_name
+            WHERE $query
         " );
         return $result;
     }
+
     
 }

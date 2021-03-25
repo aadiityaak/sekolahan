@@ -11,7 +11,7 @@ function siswa_menu_page() {
         'manage_options',
         'siswa',
         'page_siswa',
-        SWEET_URL . '/img/siswa.png',
+        SWEET_URL . '/src/img/siswa.png',
         6
     );
 }
